@@ -1,5 +1,6 @@
 package com.ashi.tech.projectspringbootkafkaproducer.rest;
 
+import com.ashi.tech.projectspringbootkafkaproducer.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    KafkaTemplate<String,String> kafkaTemplate;
+    KafkaTemplate<String, User> kafkaTemplate;
     private static final String TOPIC = "test-topic-1";
 
-    @GetMapping("/publish/{message}")
-    public String post(@PathVariable("message") final String message){
-        kafkaTemplate.send(TOPIC, message);
+    @GetMapping("/publish/{name}")
+    public String post(@PathVariable("name") final String name){
+        kafkaTemplate.send(TOPIC, new User(name, "IT", 22000L));
         return "Published Successfully";
     }
 }
